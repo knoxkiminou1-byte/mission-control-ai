@@ -1,0 +1,2 @@
+-- Concept schema for Mission Control AI
+-- See docs/architecture.md for the table list and handoff notes.
