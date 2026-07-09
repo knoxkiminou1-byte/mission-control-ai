@@ -1,5 +1,15 @@
 import { describe, expect, it } from "vitest";
-import { calculateProgramMetrics, canExportReport, demoParticipants, detectFollowUpRisks, detectMissingData } from "./mission";
+import {
+  calculateProgramMetrics,
+  canExportReport,
+  demoParticipants,
+  detectFollowUpRisks,
+  detectMissingData,
+  generateActionQueue,
+  generateBoardReport,
+  generateWeeklyBrief,
+  serializeBoardReport,
+} from "./mission";
 
 describe("Mission Control AI logic", () => {
   it("calculates deterministic metrics from participant records", () => {
@@ -24,5 +34,18 @@ describe("Mission Control AI logic", () => {
     expect(canExportReport({ approved: false, reviewerName: "Maya" })).toBe(false);
     expect(canExportReport({ approved: true })).toBe(false);
     expect(canExportReport({ approved: true, reviewerName: "Maya" })).toBe(true);
+  });
+
+  it("generates a prioritized action queue", () => {
+    const queue = generateActionQueue(demoParticipants);
+    expect(queue[0]).toMatchObject({ participantName: "Nia", priority: "urgent" });
+    expect(queue.map((item) => item.participantName)).toContain("Luis");
+  });
+
+  it("generates and serializes a board report", () => {
+    const brief = generateWeeklyBrief(demoParticipants);
+    const report = generateBoardReport(demoParticipants, "Maya");
+    expect(brief.recommendedActions.length).toBeGreaterThan(0);
+    expect(serializeBoardReport(report)).toContain("# Mission Control AI Weekly Board Report");
   });
 });
