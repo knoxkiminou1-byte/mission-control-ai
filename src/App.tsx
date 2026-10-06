@@ -255,7 +255,7 @@ export default function App() {
 
           <article className="panel span-5 selected-card">
             <p className="section-label">Selected Record</p>
-            <select value={selected.id} onChange={(event) => setSelectedParticipant(event.target.value)}>
+            <select aria-label="Selected participant" value={selected.id} onChange={(event) => setSelectedParticipant(event.target.value)}>
               {participants.map((participant) => (
                 <option value={participant.id} key={participant.id}>{participant.name}</option>
               ))}
