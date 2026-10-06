@@ -1,5 +1,5 @@
-export function searchRecords<T extends { name: string; notes: string }>(rows: T[], query: string) {
+export function searchRecords<T>(rows: T[], query: string, text: (row: T) => string) {
   const q = query.trim().toLowerCase();
   if (!q) return rows;
-  return rows.filter((row) => `${row.name} ${row.notes}`.toLowerCase().includes(q));
+  return rows.filter((row) => text(row).toLowerCase().includes(q));
 }
